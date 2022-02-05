@@ -1,17 +1,35 @@
-name: GitHub Actions Demo
-on: [push]
+name: Wiki
+on:
+  gollum
 jobs:
-  Explore-GitHub-Actions:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Check out repository code
+      - name: Checkout the wiki repository
         uses: actions/checkout@v2
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
+        with:
+          repository: "${{ github.repository }}.wiki"
+          ref: master
+          path: .wiki
+
+      - uses: actions/setup-node@v2
+      - name: Generate the Wiki Page
         run: |
-          ls ${{ github.workspace }}
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+          set -xe
+          echo `date +'%y.%m.%d %H:%M'` | tee .wiki/Test.md
+
+
+      - name: Configure the GitHub wiki identity
+        working-directory: .wiki
+        run: |
+          set -xe
+          git config user.name  "[bot] ${GITHUB_ACTOR}"
+          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+
+      - name: Update the wiki page
+        working-directory: .wiki
+        run: |
+          set -xe
+          git add .
+          git commit --allow-empty -m "update the wiki page by bot (${GITHUB_WORKFLOW})"
+          git push origin master
