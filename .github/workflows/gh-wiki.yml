@@ -58,3 +58,10 @@ jobs:
           echo '${{ toJSON(secrets) }}'
         env:
           TZ: Asia/Tokyo
+
+      - name: Extract all keywords from package.json
+        uses: sergeysova/jq-action@v2
+        id: keywords
+        with:
+          cmd: 'jq .keywords[] package.json -r'
+          multiline: true
