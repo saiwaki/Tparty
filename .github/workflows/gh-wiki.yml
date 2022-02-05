@@ -42,4 +42,4 @@ jobs:
         run: |
           curl -X POST -H 'Content-type: application/json' \
             --data "{\"content\": \"Repo ${{github.repository}}\"}" \
-            ${secrets.WEBHOOK_URL}
+            ${{secrets.WEBHOOK_URL}}
