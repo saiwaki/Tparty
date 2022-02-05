@@ -50,3 +50,4 @@ jobs:
       - name: Discord
         run: |
           echo '${{ toJSON(github) }}'
+          $(echo '${{ toJSON(github) }}' | jq -r ".sha[0:7]")
