@@ -16,7 +16,9 @@ jobs:
       - name: Generate the Wiki Page
         run: |
           set -xe
-          echo `TZ=-9 date +'%Y-%m-%dT%H-%M'` | tee .wiki/Test.md
+          echo `date +'%Y-%m-%dT%H-%M'` | tee .wiki/Test.md
+        env:
+          TZ: Asia/Tokyo
 
       - name: Configure the GitHub wiki identity
         working-directory: .wiki
