@@ -34,3 +34,12 @@ jobs:
           git add .
           git commit --allow-empty -m "update the wiki page by bot (${GITHUB_WORKFLOW})"
           git push origin master
+
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Discord
+        run: |
+          curl -X POST -H 'Content-type: application/json' \
+            --data "{\"content\": \"Repo ${{github.repository}}\"}" \
+            ${secrets.WEBHOOK_URL}
