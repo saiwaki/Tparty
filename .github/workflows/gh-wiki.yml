@@ -1,6 +1,6 @@
-name: Wiki
+name: Update Wiki
 on:
-  gollum
+  push # gollum
 jobs:
   build:
     runs-on: ubuntu-latest
