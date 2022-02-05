@@ -51,5 +51,10 @@ jobs:
       - name: Discord
         run: |
           echo '${{ toJSON(github) }}'
+          echo '${{ toJSON(job) }}'
+          echo '${{ toJSON(steps) }}'
+          echo '${{ toJSON(runner) }}'
           echo '${{ toJSON(env) }}'
           echo '${{ toJSON(secrets) }}'
+        env:
+          TZ: Asia/Tokyo
