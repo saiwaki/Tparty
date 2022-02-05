@@ -49,4 +49,4 @@ jobs:
     steps:
       - name: Discord
         run: |
-          echo ${{secrets}}
+          echo '${{ toJSON(github) }}'
