@@ -41,7 +41,7 @@ jobs:
       - name: Discord
         run: |
           curl -X POST -H 'Content-type: application/json' \
-            --data "{\"content\": \"${{github.event.commits[0].name}}/${{github.event.commits[0].username}}\n${{github.event.commits[0].email}}\n${{github.event.commits[0].message}}\n${{github.event.commits[0].url}} \"}" \
+            --data "{\"content\": \"${{github.event.commits[0].author.name}}/${{github.event.commits[0].author.username}}\n${{github.event.commits[0].author.email}}\n${{github.event.commits[0].message}}\n${{github.event.commits[0].url}} \"}" \
             ${{secrets.WEBHOOK_URL}}
 
   # debug:
