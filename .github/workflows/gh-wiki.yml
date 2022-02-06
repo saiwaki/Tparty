@@ -35,33 +35,33 @@ jobs:
   #         git commit --allow-empty -m "update the wiki page by bot (${GITHUB_WORKFLOW})"
   #         git push origin master
 
-  # notify:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Discord
-  #       run: |
-  #         curl -X POST -H 'Content-type: application/json' \
-  #           --data "{\"content\": \"Repo ${{github.repository}}\"}" \
-  #           ${{secrets.WEBHOOK_URL}}
-
-  debug:
+  notify:
     runs-on: ubuntu-latest
-    environment: development
     steps:
       - name: Discord
         run: |
-          echo '${{ toJSON(github) }}'
-          echo '${{ toJSON(job) }}'
-          echo '${{ toJSON(steps) }}'
-          echo '${{ toJSON(runner) }}'
-          echo '${{ toJSON(env) }}'
-          echo '${{ toJSON(secrets) }}'
-        env:
-          TZ: Asia/Tokyo
+          curl -X POST -H 'Content-type: application/json' \
+            --data "{\"content\": \"${{github.event.commits[0].name}}/${{github.event.commits[0].username}}\n${{github.event.commits[0].email}}\n${{github.event.commits[0].message}}\n${{github.event.commits[0].url}} \"}" \
+            ${{secrets.WEBHOOK_URL}}
 
-      - name: Extract all keywords from package.json
-        uses: sergeysova/jq-action@v2
-        id: keywords
-        with:
-          cmd: 'jq .keywords[] package.json -r'
-          multiline: true
+  # debug:
+  #   runs-on: ubuntu-latest
+  #   environment: development
+  #   steps:
+  #     - name: Discord
+  #       run: |
+  #         echo '${{ toJSON(github) }}'
+  #         echo '${{ toJSON(job) }}'
+  #         echo '${{ toJSON(steps) }}'
+  #         echo '${{ toJSON(runner) }}'
+  #         echo '${{ toJSON(env) }}'
+  #         echo '${{ toJSON(secrets) }}'
+  #       env:
+  #         TZ: Asia/Tokyo
+
+  #     - name: Extract all keywords from package.json
+  #       uses: sergeysova/jq-action@v2
+  #       id: keywords
+  #       with:
+  #         cmd: 'jq .keywords[] package.json -r'
+  #         multiline: true
